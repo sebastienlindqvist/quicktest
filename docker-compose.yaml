@@ -8,26 +8,11 @@ networks:
           gateway: 192.168.20.1
 
 services:
-  mosquitto:
-    image: eclipse-mosquitto
-    container_name: mosquitto
-    hostname: mosquitto
-    ports:
-      - "1883:1883"
-    restart: unless-stopped
-    volumes:
-      - ./simple-mosquitto.conf:/mosquitto/config/mosquitto.conf
-    networks:
-      container-network:
-        ipv4_address: 192.168.20.2
-
   tc31-xar-base:
     image: tc31-xar-base
     container_name: tc31-xar-base
     hostname: tc31-xar-base
     restart: unless-stopped
-    depends_on:
-      - mosquitto
     privileged: true
     ports:
       - "8016:8016"
