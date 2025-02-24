@@ -6,9 +6,10 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
-    #command: /bin/sh -c "python3 ~/ros2_ws/src/py_srvcli/py_srvcli/TwinCAT_Add_Route.py"
     working_dir: /root/ros2_ws
     command: /bin/bash -c "source install/setup.bash && ros2 run py_srvcli client"
+    networks:
+      - host_network
 
   talker:
     build:
@@ -22,6 +23,13 @@ services:
       - PYTHONUNBUFFERED=1
       - ROS_DOMAIN_ID=0
     command: /bin/bash -c "source install/setup.bash && ros2 run cr_robot_ros2 cr_robot_ros2_node"
+    networks:
+      - host_network
+
+networks:
+  host_network:
+    external: true
+    name: host
   
 
 
