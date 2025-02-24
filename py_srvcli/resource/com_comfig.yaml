@@ -1,0 +1,19 @@
+# This configuration file is used to set up the pyads library objects to establish communication between
+# a machine with ROS2 and a machine running the TwinCat PLC Software.
+
+# The IP address should match the machine with ROS2 with the
+# added '.1.1' on the end of the IP address.
+sender_ams: '192.168.56.1.1.1'
+# This is the IP address of the host machine with the TwinCat Software
+plc_ip: '10.199.224.69'
+# This is arbitrarily named
+route_name: 'ROS2PLC_from_Docker'
+#this is the local IP, should be the same as sender_ams minus .1.1
+local_ip: '10.199.224.72'
+# This should match the plc_ip address
+host_name: '10.199.224.69'
+# This is gotten from the TwinCat System About menu "AMS Net id"
+remote_ads: '39.195.134.114.1.1'
+
+Username: 'Administrator'
+Password: '1'

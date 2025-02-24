@@ -1,32 +1,30 @@
-networks:
-  container-network:
-    name: container-network
-    ipam:
-      driver: default
-      config:
-        - subnet: 192.168.20.0/24
-          gateway: 192.168.20.1
+version: '3.8'
 
 services:
-  tc31-xar-base:
-    image: tc31-xar-base
-    container_name: tc31-xar-base
-    hostname: tc31-xar-base
+  tc31-xar-base1:
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: unless-stopped
-    privileged: true
-    ports:
-      - "8016:8016"
-      - "48898:48898"
-      - "48899:48899/udp"
-    volumes:
-      - /dev/hugepages:/dev/hugepages
-    networks:
-      container-network:
-        ipv4_address: 192.168.20.3
-    # Use PCI_DEVICES as environment variables to specify the Ethernet
-    # controllers which can be used by the TwinCAT runtime for real-time
-    # ethernet communication. If no PCI-DEVICES are set, TwinCAT will
-    # probe all available Ethernet controllers of the host which have
-    # vfio-pci assigned as kernel drivers
+    #command: /bin/sh -c "python3 ~/ros2_ws/src/py_srvcli/py_srvcli/TwinCAT_Add_Route.py"
+    working_dir: /root/ros2_ws
+    command: /bin/bash -c "source install/setup.bash && ros2 run py_srvcli client"
+
+  talker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /root/ros2_ws
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
     environment:
-      - PCI_DEVICES=0000:00:00.0
+      - PYTHONUNBUFFERED=1
+      - ROS_DOMAIN_ID=0
+    command: /bin/bash -c "source install/setup.bash && ros2 run cr_robot_ros2 cr_robot_ros2_node"
+  
+
+
+
+
+
