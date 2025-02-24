@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      network: host_network
     restart: unless-stopped
     working_dir: /root/ros2_ws
     command: /bin/bash -c "source install/setup.bash && ros2 run py_srvcli client"
@@ -15,6 +16,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      network: host_network
     working_dir: /root/ros2_ws
     restart: unless-stopped
     tty: true
@@ -30,7 +32,7 @@ networks:
   host_network:
     external: true
     name: host
-  
+
 
 
 
